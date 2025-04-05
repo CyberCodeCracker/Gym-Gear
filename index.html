@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GymFit - Équipement de Fitness</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Structure principale du site (visible par défaut) -->
+        <div id="main-site" class="page active">
+            <header>
+                <div class="logo">
+                    <h1>GymFit</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" onclick="navigateTo('home')">Accueil</a></li>
+                        <li><a href="#" onclick="navigateTo('products')">Produits</a></li>
+                        <li><a href="#" onclick="navigateTo('cart')">Panier <span id="cart-count">0</span></a></li>
+                        <li><a href="#" onclick="navigateTo('manage-products')">Gestion des produits</a></li>
+                    </ul>
+                </nav>
+            </header>
+
+            <main>
+                <!-- Page d'accueil -->
+                <section id="home-page" class="content-page active">
+                    <div class="hero">
+                        <h2>Bienvenue sur GymFit</h2>
+                        <p>Votre destination pour tous vos besoins en équipement de fitness</p>
+                        <button class="btn btn-primary" onclick="navigateTo('products')">Voir nos produits</button>
+                    </div>
+                    
+                    <div class="features">
+                        <div class="feature">
+                            <div class="feature-icon">🏋️</div>
+                            <h3>Qualité Premium</h3>
+                            <p>Des équipements durables et de haute qualité pour votre entraînement</p>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">🚚</div>
+                            <h3>Livraison Rapide</h3>
+                            <p>Livraison sous 48h pour tous vos équipements</p>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">💰</div>
+                            <h3>Prix Compétitifs</h3>
+                            <p>Les meilleurs prix du marché garantis</p>
+                        </div>
+                    </div>
+                    
+                    <div class="categories">
+                        <h2>Nos Catégories</h2>
+                        <div class="category-grid">
+                            <div class="category" onclick="filterProductsByCategory('musculation')">
+                                <h3>Musculation</h3>
+                            </div>
+                            <div class="category" onclick="filterProductsByCategory('cardio')">
+                                <h3>Cardio</h3>
+                            </div>
+                            <div class="category" onclick="filterProductsByCategory('accessoires')">
+                                <h3>Accessoires</h3>
+                            </div>
+                            <div class="category" onclick="filterProductsByCategory('nutrition')">
+                                <h3>Nutrition</h3>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Page des produits -->
+                <section id="products-page" class="content-page">
+                    <h2>Nos Produits</h2>
+                    
+                    <div class="filters">
+                        <div class="search-bar">
+                            <input type="text" id="search-input" placeholder="Rechercher un produit...">
+                            <button onclick="searchProducts()">Rechercher</button>
+                        </div>
+                        
+                        <div class="category-filter">
+                            <label for="category-select">Catégorie:</label>
+                            <select id="category-select" onchange="filterProductsByCategory(this.value)">
+                                <option value="all">Toutes les catégories</option>
+                                <option value="musculation">Musculation</option>
+                                <option value="cardio">Cardio</option>
+                                <option value="accessoires">Accessoires</option>
+                                <option value="nutrition">Nutrition</option>
+                            </select>
+                        </div>
+                        
+                        <div class="sort-filter">
+                            <label for="sort-select">Trier par:</label>
+                            <select id="sort-select" onchange="sortProducts(this.value)">
+                                <option value="default">Par défaut</option>
+                                <option value="price-asc">Prix croissant</option>
+                                <option value="price-desc">Prix décroissant</option>
+                                <option value="name-asc">Nom (A-Z)</option>
+                                <option value="name-desc">Nom (Z-A)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div id="products-grid" class="products-grid">
+                        <!-- Les produits seront ajoutés ici dynamiquement -->
+                    </div>
+                </section>
+
+                <!-- Page du panier -->
+                <section id="cart-page" class="content-page">
+                    <h2>Votre Panier</h2>
+                    
+                    <div id="cart-items">
+                        <!-- Les articles du panier seront ajoutés ici dynamiquement -->
+                    </div>
+                    
+                    <div class="cart-summary">
+                        <div class="cart-total">
+                            <h3>Total: <span id="cart-total-price">0.00</span> TND</h3>
+                        </div>
+                        
+                        <button class="btn btn-primary" onclick="checkout()">Passer la commande</button>
+                    </div>
+                    
+                    <div id="checkout-form" class="checkout-form">
+                        <h3>Informations de livraison</h3>
+                        <form onsubmit="placeOrder(event)">
+                            <div class="form-group">
+                                <label for="checkout-name">Nom complet</label>
+                                <input type="text" id="checkout-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="checkout-address">Adresse</label>
+                                <input type="text" id="checkout-address" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="checkout-city">Ville</label>
+                                <input type="text" id="checkout-city" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="checkout-postal">Code postal</label>
+                                <input type="text" id="checkout-postal" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="checkout-phone">Téléphone</label>
+                                <input type="tel" id="checkout-phone" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Confirmer la commande</button>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- Page de gestion des produits -->
+                <section id="manage-products-page" class="content-page">
+                    <h2>Gestion des Produits</h2>
+                    
+                    <button class="btn btn-primary" onclick="showProductForm()">Ajouter un produit</button>
+                    
+                    <div id="product-form" class="product-form">
+                        <h4 id="product-form-title">Ajouter un produit</h4>
+                        <form onsubmit="saveProduct(event)">
+                            <input type="hidden" id="product-id">
+                            <div class="form-group">
+                                <label for="product-name">Nom du produit</label>
+                                <input type="text" id="product-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-category">Catégorie</label>
+                                <select id="product-category" required>
+                                    <option value="musculation">Musculation</option>
+                                    <option value="cardio">Cardio</option>
+                                    <option value="accessoires">Accessoires</option>
+                                    <option value="nutrition">Nutrition</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-price">Prix (TND)</label>
+                                <input type="number" id="product-price" step="0.01" min="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-stock">Stock</label>
+                                <input type="number" id="product-stock" min="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-image">URL de l'image</label>
+                                <input type="text" id="product-image" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-description">Description</label>
+                                <textarea id="product-description" rows="4" required></textarea>
+                            </div>
+                            <div class="form-buttons">
+                                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                <button type="button" class="btn btn-secondary" onclick="cancelProductForm()">Annuler</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div id="products-list" class="admin-list">
+                        <!-- La liste des produits sera ajoutée ici dynamiquement -->
+                    </div>
+                </section>
+            </main>
+
+            <footer>
+                <div class="footer-content">
+                    <div class="footer-logo">
+                        <h2>GymFit</h2>
+                        <p>Votre partenaire fitness depuis 2023</p>
+                    </div>
+                    <div class="footer-links">
+                        <h3>Liens rapides</h3>
+                        <ul>
+                            <li><a href="#" onclick="navigateTo('home')">Accueil</a></li>
+                            <li><a href="#" onclick="navigateTo('products')">Produits</a></li>
+                            <li><a href="#" onclick="navigateTo('cart')">Panier</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-contact">
+                        <h3>Contact</h3>
+                        <p>Email: contact@gymfit.com</p>
+                        <p>Téléphone: +33 1 23 45 67 89</p>
+                        <p>Adresse: 123 Rue du Fitness, 75000 Paris</p>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2023 GymFit. Tous droits réservés.</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
